@@ -86,6 +86,31 @@ def list_datasets() -> list[str]:
     return list(_dataframe_cache.keys())
 
 
+def get_dataset_columns(name: str = "") -> dict | None:
+    """Return column names and types for a loaded dataset.
+
+    If name is empty and only one dataset is loaded, use that one.
+    Returns dict with 'numeric', 'categorical', 'datetime', 'all' column lists.
+    """
+    if name:
+        df = _dataframe_cache.get(name)
+    elif len(_dataframe_cache) == 1:
+        df = next(iter(_dataframe_cache.values()))
+    else:
+        return None
+    if df is None:
+        return None
+    numeric = df.select_dtypes(include="number").columns.tolist()
+    categorical = df.select_dtypes(include=["object", "category"]).columns.tolist()
+    datetime_cols = df.select_dtypes(include=["datetime", "datetimetz"]).columns.tolist()
+    return {
+        "numeric": numeric,
+        "categorical": categorical,
+        "datetime": datetime_cols,
+        "all": df.columns.tolist(),
+    }
+
+
 def clear_cache():
     """Clear the in-memory DataFrame cache."""
     _dataframe_cache.clear()

@@ -246,7 +246,7 @@ with st.sidebar:
     st.markdown("---")
     st.subheader("⚡ Quick Actions")
 
-    from data_analyst.utils.state_manager import list_datasets
+    from data_analyst.utils.state_manager import list_datasets, get_dataset_columns
     loaded = list_datasets()
 
     if not loaded:
@@ -257,13 +257,32 @@ with st.sidebar:
         ]
     else:
         ds = loaded[0]  # Use first loaded dataset
+        cols = get_dataset_columns(ds)
         quick_actions = [
             ("📁 List uploaded files", "List uploaded files and loaded datasets"),
             (f"📊 Describe {ds}", f"describe {ds}"),
-            (f"📈 Bar chart (Salary by Dept)", f"create a bar chart of Salary by Department from {ds}"),
-            (f"🔍 Top 5 highest salaries", f"show top 5 employees with highest Salary from {ds}"),
-            (f"📉 Correlation heatmap", f"create a heatmap for {ds}"),
         ]
+        # Dynamically build chart/query actions from actual columns
+        if cols:
+            cat_cols = cols["categorical"]
+            num_cols = cols["numeric"]
+            if cat_cols and num_cols:
+                x_col = cat_cols[0]
+                y_col = num_cols[0]
+                quick_actions.append(
+                    (f"📈 Bar chart ({y_col} by {x_col})",
+                     f"create a bar chart of {y_col} by {x_col} from {ds}")
+                )
+            if num_cols:
+                top_col = num_cols[0]
+                quick_actions.append(
+                    (f"🔍 Top 5 by {top_col}",
+                     f"show top 5 rows with highest {top_col} from {ds}")
+                )
+            if len(num_cols) >= 2:
+                quick_actions.append(
+                    (f"📉 Correlation heatmap", f"create a heatmap for {ds}")
+                )
 
     for label, action_text in quick_actions:
         if st.button(label, use_container_width=True, key=f"qa_{label}"):
