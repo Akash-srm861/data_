@@ -121,9 +121,10 @@ init_session()
 
 
 # ── Helper: Run agent ──
-async def run_agent_async(user_message: str) -> str:
-    """Send a message to the agent and collect the response."""
+async def run_agent_async(user_message: str, max_retries: int = 3) -> str:
+    """Send a message to the agent and collect the response, with rate limit retry."""
     from google.genai import types
+    import time as time_module
 
     runner: Runner = st.session_state.runner
 
@@ -131,18 +132,33 @@ async def run_agent_async(user_message: str) -> str:
         role="user", parts=[types.Part(text=user_message)]
     )
 
-    response_parts = []
-    async for event in runner.run_async(
-        user_id=USER_ID,
-        session_id=st.session_state.session_id,
-        new_message=content,
-    ):
-        if event.content and event.content.parts:
-            for part in event.content.parts:
-                if part.text:
-                    response_parts.append(part.text)
+    last_error = None
+    for attempt in range(max_retries):
+        try:
+            response_parts = []
+            async for event in runner.run_async(
+                user_id=USER_ID,
+                session_id=st.session_state.session_id,
+                new_message=content,
+            ):
+                if event.content and event.content.parts:
+                    for part in event.content.parts:
+                        if part.text:
+                            response_parts.append(part.text)
 
-    return "\n".join(response_parts) if response_parts else "I couldn't generate a response. Please try again."
+            return "\n".join(response_parts) if response_parts else "I couldn't generate a response. Please try again."
+        except Exception as e:
+            error_msg = str(e)
+            if "429" in error_msg or "rate" in error_msg.lower() or "limit" in error_msg.lower():
+                last_error = e
+                wait_time = (attempt + 1) * 15  # 15, 30, 45 seconds
+                if attempt < max_retries - 1:
+                    await asyncio.sleep(wait_time)
+                    continue
+            else:
+                raise e
+    
+    raise last_error if last_error else Exception("Max retries exceeded")
 
 
 def run_agent(user_message: str) -> str:
