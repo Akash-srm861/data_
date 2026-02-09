@@ -8,7 +8,7 @@ from ..tools.web_tools import fetch_api_data, scrape_table, scrape_webpage
 
 scraper_agent = LlmAgent(
     name="WebScraper",
-    model="groq/meta-llama/llama-3.1-8b-instruct",
+    model="groq/llama-3.1-8b-instant",
     description=(
         "Specialist for web scraping and fetching live data from the internet. "
         "Can scrape web pages for text, extract HTML tables into datasets, "
