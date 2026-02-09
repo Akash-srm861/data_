@@ -8,7 +8,7 @@ from ..tools.file_tools import list_uploaded_files, load_csv, load_excel, load_p
 
 data_loader_agent = LlmAgent(
     name="DataLoader",
-    model="groq/meta-llama/llama-4-scout-17b-16e-instruct",
+    model="groq/meta-llama/llama-3.1-8b-instruct",
     description=(
         "Specialist for loading and previewing data files. "
         "Handles CSV, Excel, and PDF file ingestion. "

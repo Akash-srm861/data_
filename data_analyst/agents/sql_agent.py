@@ -8,7 +8,7 @@ from ..tools.sql_tools import connect_database, describe_table, execute_sql, lis
 
 sql_agent = LlmAgent(
     name="SQLAnalyst",
-    model="groq/meta-llama/llama-4-scout-17b-16e-instruct",
+    model="groq/meta-llama/llama-3.1-8b-instruct",
     description=(
         "Specialist for database operations and SQL queries. "
         "Handles connecting to databases, exploring schemas, writing SQL queries "
