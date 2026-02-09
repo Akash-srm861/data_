@@ -24,6 +24,38 @@ try:
 except Exception:
     pass  # No secrets available (local dev)
 
+
+# ── Ensure sample data exists (for fresh deployments) ──
+def _ensure_sample_data():
+    """Create sample_data.csv if it doesn't exist (e.g. on Streamlit Cloud)."""
+    sample_path = os.path.join("uploads", "sample_data.csv")
+    if not os.path.exists(sample_path):
+        os.makedirs("uploads", exist_ok=True)
+        import pandas as pd
+        data = {
+            "Name": ["Alice","Bob","Carol","David","Eve","Frank","Grace","Hank","Ivy","Jack",
+                     "Karen","Leo","Mia","Nick","Olivia","Paul","Quinn","Rita","Sam","Tina"],
+            "Age": [30,25,35,28,32,40,27,33,29,38,26,31,34,36,24,42,29,37,28,33],
+            "City": ["New York","Los Angeles","Chicago","Houston","Phoenix","New York","Chicago",
+                     "Houston","Los Angeles","Phoenix","New York","Chicago","Houston","Los Angeles",
+                     "Phoenix","New York","Chicago","Houston","Los Angeles","Phoenix"],
+            "Department": ["Engineering","Marketing","Engineering","Sales","HR","Engineering","Marketing",
+                          "Sales","HR","Engineering","Marketing","Sales","HR","Engineering","Marketing",
+                          "Sales","HR","Engineering","Marketing","Sales"],
+            "Salary": [95000,65000,110000,72000,78000,125000,68000,85000,71000,115000,
+                       62000,80000,82000,120000,58000,95000,73000,118000,67000,88000],
+            "Experience_Years": [5,2,10,3,7,15,3,8,4,12,1,6,9,11,1,16,4,13,3,8],
+            "Rating": [4.5,3.8,4.9,4.1,4.3,4.7,3.9,4.4,4.0,4.6,3.5,4.2,4.5,4.8,3.6,4.7,4.1,4.6,3.7,4.3],
+            "Join_Date": ["2021-03-15","2024-06-01","2016-01-20","2023-04-10","2019-09-05",
+                         "2011-07-22","2023-08-14","2018-02-28","2022-11-30","2014-05-12",
+                         "2025-01-08","2020-06-17","2017-10-03","2015-03-25","2025-02-01",
+                         "2010-12-15","2022-07-19","2013-04-08","2023-09-22","2018-01-11"],
+        }
+        pd.DataFrame(data).to_csv(sample_path, index=False)
+
+
+_ensure_sample_data()
+
 # ── Page config ──
 st.set_page_config(
     page_title="Data Analyst AI",

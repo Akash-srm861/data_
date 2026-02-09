@@ -3,6 +3,7 @@ __pycache__/
 *.pyc
 uploads/*
 !uploads/.gitkeep
+!uploads/sample_data.csv
 outputs/*
 !outputs/.gitkeep
 *.db
