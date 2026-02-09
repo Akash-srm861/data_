@@ -1,0 +1,13 @@
+.env
+__pycache__/
+*.pyc
+uploads/*
+!uploads/.gitkeep
+outputs/*
+!outputs/.gitkeep
+*.db
+.venv/
+venv/
+.streamlit/secrets.toml
+.adk/
+test_*.py
