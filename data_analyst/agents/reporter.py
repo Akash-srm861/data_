@@ -8,7 +8,7 @@ from ..tools.report_tools import generate_markdown_report, generate_pdf_report
 
 reporter_agent = LlmAgent(
     name="Reporter",
-    model="groq/llama-3.1-8b-instant",
+    model="cerebras/llama3.1-8b",
     description=(
         "Specialist for generating structured analysis reports. "
         "Creates Markdown and PDF reports combining text, findings, and charts. "

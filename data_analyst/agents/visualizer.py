@@ -15,7 +15,7 @@ from ..tools.viz_tools import (
 
 visualizer_agent = LlmAgent(
     name="Visualizer",
-    model="groq/llama-3.1-8b-instant",
+    model="cerebras/llama3.1-8b",
     description=(
         "Specialist for data visualization and chart generation. "
         "Creates bar charts, line charts, scatter plots, histograms, "

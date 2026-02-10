@@ -43,7 +43,7 @@ from .tools.web_tools import fetch_api_data, scrape_table, scrape_webpage
 
 root_agent = LlmAgent(
     name="DataAnalyst",
-    model="groq/llama-3.1-8b-instant",
+    model="cerebras/llama3.1-8b",
     description="Data Analyst AI that uses tools to load, analyze, and visualize data.",
     instruction="""You are a Data Analyst AI. You MUST use your tools for ALL tasks.
 You work with ANY kind of data — employee records, Aadhar data, industry statistics, sales, healthcare, census, financial, or anything else the user uploads.

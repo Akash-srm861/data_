@@ -16,7 +16,7 @@ from ..tools.analysis_tools import (
 
 analyst_agent = LlmAgent(
     name="StatisticalAnalyst",
-    model="groq/llama-3.1-8b-instant",
+    model="cerebras/llama3.1-8b",
     description=(
         "Specialist for statistical analysis. "
         "Handles descriptive statistics, correlations, outlier detection, "

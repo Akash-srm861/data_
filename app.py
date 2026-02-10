@@ -19,8 +19,8 @@ load_dotenv()
 
 # Also load from Streamlit secrets (for Streamlit Cloud deployment)
 try:
-    if "GROQ_API_KEY" in st.secrets:
-        os.environ["GROQ_API_KEY"] = st.secrets["GROQ_API_KEY"]
+    if "CEREBRUS_API_KEY" in st.secrets:
+        os.environ["CEREBRAS_API_KEY"] = st.secrets["CEREBRUS_API_KEY"]
 except Exception:
     pass  # No secrets available (local dev)
 
@@ -65,12 +65,12 @@ st.set_page_config(
 )
 
 # ── Check API key ──
-groq_key = os.getenv("GROQ_API_KEY", "")
-if not groq_key:
+cerebras_key = os.getenv("CEREBRAS_API_KEY", "")
+if not cerebras_key:
     st.error(
-        "⚠️ **GROQ_API_KEY not set!** \n\n"
-        "1. Get an API key from [Groq Console](https://console.groq.com/keys)\n"
-        "2. Add it to the `.env` file: `GROQ_API_KEY=your-key-here`\n"
+        "⚠️ **CEREBRAS_API_KEY not set!** \n\n"
+        "1. Get an API key from [Cerebras Console](https://cloud.cerebras.ai/)\n"
+        "2. Add it to the `.env` file: `CEREBRAS_API_KEY=your-key-here`\n"
         "3. Restart the app"
     )
     st.stop()
@@ -308,7 +308,7 @@ with st.sidebar:
 
 # ── Main chat area ──
 st.title("📊 Data Analyst AI")
-st.caption("Powered by Google ADK + Groq (Llama 4 Scout) · Data Analysis System")
+st.caption("Powered by Google ADK + Cerebras (Llama 3.1) · Data Analysis System")
 
 # Display chat history
 for msg in st.session_state.messages:
